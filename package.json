@@ -1,0 +1,56 @@
+{
+  "name": "@businessmaps/metaontology-nuxt",
+  "version": "0.63.2",
+  "description": "Vue 3 and Nuxt 4 integration layer for @businessmaps/metaontology. Reactive composables for commit-sourced persistence, cloud sync, cross-tab coordination, and a reactive triple store.",
+  "author": "Business Maps",
+  "license": "Apache-2.0",
+  "keywords": [
+    "metaontology",
+    "nuxt",
+    "vue",
+    "domain-modeling",
+    "ddd",
+    "triple-store",
+    "indexeddb",
+    "sync",
+    "offline-first"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Business-Maps/metaontology-nuxt.git"
+  },
+  "homepage": "https://github.com/Business-Maps/metaontology-nuxt#readme",
+  "bugs": {
+    "url": "https://github.com/Business-Maps/metaontology-nuxt/issues"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "dependencies": {
+    "@businessmaps/metaontology": "*",
+    "@vueuse/core": "^14.0.0",
+    "idb": "^8.0.0",
+    "nanoid": "^5.0.0"
+  },
+  "peerDependencies": {
+    "nuxt": ">=4",
+    "vue": ">=3"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./nuxt.config": "./nuxt.config.ts",
+    "./composables/*": "./composables/*.ts"
+  },
+  "files": [
+    "index.ts",
+    "nuxt.config.ts",
+    "composables/**/*.ts",
+    "!**/__tests__/**"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Validate package structure
+        run: node -e "
+          const fs = require('fs');
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          const assert = require('assert');
+          assert(pkg.name === '@businessmaps/metaontology-nuxt', 'package name');
+          assert(pkg.exports['.'], 'main export');
+          assert(pkg.exports['./nuxt.config'], 'nuxt.config export');
+          assert(pkg.exports['./composables/*'], 'composables export');
+          assert(fs.existsSync('index.ts'), 'index.ts exists');
+          assert(fs.existsSync('nuxt.config.ts'), 'nuxt.config.ts exists');
+          assert(fs.existsSync('composables/useCommitLog.ts'), 'useCommitLog exists');
+          assert(fs.existsSync('composables/useSyncEngine.ts'), 'useSyncEngine exists');
+          assert(fs.existsSync('composables/useTripleStore.ts'), 'useTripleStore exists');
+          assert(fs.existsSync('composables/useModelStore.ts'), 'useModelStore exists');
+          assert(fs.existsSync('composables/useCrossTab.ts'), 'useCrossTab exists');
+          assert(fs.existsSync('README.md'), 'README exists');
+          assert(fs.existsSync('LICENSE'), 'LICENSE exists');
+          console.log('Package structure OK');
+          "
+
+      - name: Dry-run pack
+        run: npm pack --dry-run
